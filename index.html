@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Psychic Game</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>The Phychic Game</h1>
+
+<Script type = "text/javascript">
+
+	var letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+	var numberOfGuesses = 10;
+	var wins = 0;
+	var losses = 0;
+	var guessedLetters = [];
+
+	var letterIndex =  Math.floor((Math.random() * 26 + 1));
+	var compLetter = letters[letterIndex];
+
+	function isLetterAlreadyPicked(letter){
+		for(var i =0; i<guessedLetters.length;i++){
+			if(letter == guessedLetters[i] && 10-numberOfGuesses != i){
+				alert("you've already picked that letter! try again");
+				guessedLetters.pop();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	document.onkeyup = function( event ) {
+		guessedLetters[10-numberOfGuesses] = event.key.toLowerCase();
+
+		if( isLetterAlreadyPicked(guessedLetters[10-numberOfGuesses]) == false ){
+			if(guessedLetters[10-numberOfGuesses] == compLetter) {
+				alert("You Win!");
+				wins++;
+				numberOfGuesses = 10;
+				letterIndex =  Math.floor((Math.random() * 26 + 1));
+				compLetter = letters[letterIndex];
+				guessedLetters = [];
+			}
+			else{
+				numberOfGuesses--;
+
+			}
+		};
+		if(numberOfGuesses == 0) {
+			alert("You Lose...");
+			losses++;
+			guessedLetters = [];
+			letterIndex =  Math.floor((Math.random() * 26 + 1));
+			compLetter = letters[letterIndex];
+		}
+		console.log("number of guesses left: " + numberOfGuesses);
+		console.log("comp guess: " + compLetter);
+		console.log("letterIndex: " + letterIndex);
+		console.log(guessedLetters);
+		console.log(isLetterAlreadyPicked(guessedLetters[10-numberOfGuesses]));
+		document.getElementById("wins").innerHTML = "Wins: " + wins;
+		document.getElementById("losses").innerHTML = "Losses: " + losses;
+		document.getElementById("guesses").innerHTML = "Guesses Left: " + numberOfGuesses;
+		document.getElementById("guessed").innerHTML = "Your guesses so far: " + guessedLetters;
+
+	};
+
+
+</Script>
+
+	<p>Guess what letter im thinking of</p>
+	<br>
+	<p id="wins">Wins: <script type="text/javascript">document.write(wins)</script></p>
+	<br>
+	<p id="losses">Losses: <script type="text/javascript">document.write(losses)</script></p>
+	<br>
+	<p id="guesses">Guesses Left: <script type="text/javascript">document.write(numberOfGuesses)</script></p>
+	<br>
+	<p id="guessed">Your guesses so far: <script type="text/javascript">document.write(guessedLetters)</script></p>
+
+
+</body>
+</html>
